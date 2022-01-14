@@ -1,0 +1,78 @@
+---
+title: "Report Output 5 - Example"
+output: html_document
+---
+
+```{r code block to load libaries and script, warning=FALSE, message=FALSE}
+library('tidyverse')
+library('DESeq2')
+source('main.R')
+```
+
+# Load in counts matrix and sample metadata
+```{r code block to load in subsetted data and subsetted sample data, message=FALSE}
+
+```
+
+# Display head of subsetted counts matrix
+```{r code block to display head of subsetted counts matrix}
+
+```
+
+# Display subsetted coldata
+```{r code block to display subsetted coldata}
+
+```
+
+# Run DESeq2 on subsetted counts matrix
+```{r codeblock to run DESeq2 on subsetted data, message=FALSE}
+
+```
+
+```{r code block to define figure captions}
+caption_1 <- 'Descriptive caption for fig 1'
+caption_2 <- 'Descriptive caption for fig 2'
+caption_3 <- 'Descriptive caption for fig 3'
+caption_4 <- 'Descriptive caption for fig 4'
+caption_5 <-  'Descriptive caption for fig 5'
+```
+
+# Plot of p-values for all results
+```{r code block for p-values plot, fig.cap = caption_1}
+
+```
+
+# Plot of log2FC for differentially expressed genes
+```{r code block for log2fc plot, fig.cap = caption_2}
+
+```
+
+# Volcano plot of results labeled by significance and directionality
+```{r code block for volcano plot, fig.cap = caption_3}
+
+```
+
+# Extract out normalized counts for subsetted results
+```{r code block to extract normalized counts and top ten DE genes ranked by padj}
+
+```
+
+# Plot normalized counts for top ten DE genes for subsetted results
+```{r code block for normalized counts jitter plot, fig.cap = caption_4}
+
+```
+
+# Load in full counts matrix and sample data
+```{r code block to read in full counts and full sampledata, message=FALSE}
+
+```
+
+# Run LRT analysis on full counts matrix
+```{r codeblock for LRT analysis, message=FALSE}
+
+```
+
+# Plot normalized counts from LRT analysis for the top ranked DE gene across timepoints
+```{r codeblock for normalized count plot for LRT, fig.cap=caption_5}
+
+```

@@ -42,8 +42,9 @@ pval_plot <- res_labeled %>%
   ggplot(aes(pvalue)) + 
   geom_histogram(bins=50, color='black', fill='lightblue') + 
   theme_linedraw() + 
-  ggtitle('Histogram of raw pvalues obtained from DE analysis') + 
-  theme(plot.title = element_text(hjust = 0.5))
+  theme(plot.title = element_text(hjust = 0.5)) +
+  ggtitle('Histogram of raw pvalues obtained from DE analysis')
+  
 return(pval_plot)
 }
 
@@ -63,7 +64,8 @@ volcano_plot <- res_labeled %>%
   ggplot() + 
   geom_point(mapping=aes(x=log2FoldChange, y=-log10(padj), color=volc_plot_status)) + 
   geom_hline(yintercept = -log10(0.1), linetype = "dashed")  + 
-  theme_linedraw()
+  theme_linedraw() +
+  ggtitle('Volcano plot of results from vP0 vs. vAd')
 return(volcano_plot)
 }
 
@@ -114,12 +116,12 @@ return(results_lrt)
 }
 
 # DESeq2 plotCounts take the unordered results, and the DDS object
-plot_lrt_counts <- function(dds_lrt, res_lrt_ordered){
+plot_lrt_counts <- function(dds_lrt, res_lrt_unordered){
 level_order <- c('vP0', 'vP4', 'vP7', 'vAd')
-top_time <- plotCounts(dds_lrt, which.min(res_lrt_ordered$padj), intgroup=c('samplename', 'timepoint'), returnData=TRUE)
+top_time <- plotCounts(dds_lrt, which.min(res_lrt_unordered$padj), intgroup=c('samplename', 'timepoint'), returnData=TRUE)
 plot_lrt <- top_time %>% ggplot() + geom_point(aes(x= factor(timepoint, level=level_order), y=count, color=samplename), position=position_jitter(w=0.1,h=0)) + labs(x='Timepoint') + theme_linedraw() + ggtitle('Normalized counts over time for top DE gene from LRT analysis')
 return(plot_lrt)
 }
 
-res_p7_v_p0 <- results(dds_lrt, contrast = c( "timepoint", "vP7", "vP0" ), test='Wald')
-res_p7_v_p0_ordered <- res_p7_v_p0[order(res_p7_v_p0$padj),]
+#res_p7_v_p0 <- results(dds_lrt, contrast = c( "timepoint", "vP7", "vP0" ), test='Wald')
+#res_p7_v_p0_ordered <- res_p7_v_p0[order(res_p7_v_p0$padj),]
