@@ -1,9 +1,10 @@
 ---
-title: "Assignment 5 - DESeq2"
 output:
   html_document:
     css: style.css
 ---
+
+# Assignment 5 - DESeq2 {-}
 
 For this assignment, we will be utilizing DESeq2, which is easily installed through Bioconductor. If you have neither, you should install Bioconductor first and then DESeq2 using the appropriate Bioconductor commands. The following code blocks provide basic instructions for how to install Bioconductor and DESeq2. 
 
