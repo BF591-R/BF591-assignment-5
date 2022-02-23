@@ -232,7 +232,7 @@ run_gsea <- function(labeled_results, gmt, min_size, max_size) {
 #' and negative NES
 #' @export
 #'
-#' @examples fgsea_plot <- top_pathways(fgsea_results)
+#' @examples fgsea_plot <- top_pathways(fgsea_results, 10)
 top_pathways <- function(fgsea_results, num_paths){
   
   top_pos <- fgsea_results %>% slice_max(NES, n=num_paths) %>% pull(pathway)
