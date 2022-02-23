@@ -226,7 +226,10 @@ run_gsea <- function(labeled_results, gmt, min_size, max_size) {
 #' Function to plot top ten positive NES and top ten negative NES pathways
 #' in a barchart
 #'
-#' @param fgsea_results 
+#' @param fgsea_results (tibble): the fgsea results in tibble format returned by
+#' the previous function
+#' @param num_paths (int): the number of pathways (up and down) to include in 
+#' the plot. Set this at 10.
 #'
 #' @return ggplot with a barchart showing the top twenty pathways ranked by positive
 #' and negative NES
