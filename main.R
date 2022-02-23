@@ -218,7 +218,7 @@ run_gsea <- function(labeled_results, gmt, min_size, max_size) {
   
   c2_pathways <- gmtPathways('c2.cp.v7.5.1.symbols.gmt')
   
-  fgsea_results <- fgsea(c2_pathways, rnks, minSize=15, maxSize=500) %>% as_tibble()
+  fgsea_results <- fgsea(c2_pathways, rnks, minSize=min_size, maxSize=max_size) %>% as_tibble()
   
   return(fgsea_results)
 }
@@ -233,10 +233,10 @@ run_gsea <- function(labeled_results, gmt, min_size, max_size) {
 #' @export
 #'
 #' @examples fgsea_plot <- top_pathways(fgsea_results)
-top_pathways <- function(fgsea_results){
+top_pathways <- function(fgsea_results, num_paths){
   
-  top_pos <- fgsea_results %>% slice_max(NES, n=10) %>% pull(pathway)
-  top_neg <- fgsea_results %>% slice_min(NES, n=10) %>% pull(pathway)
+  top_pos <- fgsea_results %>% slice_max(NES, n=num_paths) %>% pull(pathway)
+  top_neg <- fgsea_results %>% slice_min(NES, n=num_paths) %>% pull(pathway)
   
   subset <- fgsea_results %>% 
     filter(pathway %in% c(top_pos, top_neg)) %>%
