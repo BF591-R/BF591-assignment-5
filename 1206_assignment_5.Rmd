@@ -153,6 +153,9 @@ columns.
 to be in the same order
 
 3. You may need to convert your counts dataframe to a matrix
+
+4. The counts matrix is verse_counts.tsv and the sample metadata is 
+sample_metadata.csv
 :::
 
 ## 2. Running DESeq2
@@ -292,6 +295,10 @@ duplicate values for log2FoldChange. Choose a method to remove these values.
 ## 9. Plotting the top ten positive NES and top ten negative NES pathways
 ::: {.box .hint}
 1. Ensure that the pathway labels are visible
+
+2. You will probably get warnings about duplicate values or ranks, do your best
+to address these but don't get hung up on trying to find them all.
+
 :::
 
 ## References {-}

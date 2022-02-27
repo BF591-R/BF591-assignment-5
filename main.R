@@ -55,12 +55,12 @@ return_deseq_res <- function(se, design) {
   return(list('res' = res, 'dds' = dds))
 }
 
-#' Function that takes the DESeq2 results dataframe and adds a column to denote
-#' plotting status in volcano plot. Column should denote whether gene is either
-#' 1. Significant at padj < .10 and has a positive log fold change, 2.
-#' Significant at padj < .10 and has a negative log fold change, 3. Not
-#' significant at padj < .10. Have the values for these labels be UP, DOWN, NS,
-#' respectively.
+#' Function that takes the DESeq2 results dataframe, converts it to a tibble and
+#' adds a column to denote plotting status in volcano plot. Column should denote
+#' whether gene is either 1. Significant at padj < .10 and has a positive log
+#' fold change, 2. Significant at padj < .10 and has a negative log fold change,
+#' 3. Not significant at padj < .10. Have the values for these labels be UP,
+#' DOWN, NS, respectively. The column should be named `volc_plot_status`.
 #'
 #' @param deseq2_res (df): results from DESeq2 
 #' @param padj_threshold (float): threshold for considering significance (padj)
@@ -71,7 +71,7 @@ return_deseq_res <- function(se, design) {
 #'   
 #' @export
 #'
-#' @examples labeled_results <- label_res(ordered_res, .10)
+#' @examples labeled_results <- label_res(res, .10)
 label_res <- function(deseq2_res, padj_threshold) {
   labeled <- deseq2_res %>%
     as_tibble(rownames='genes') %>%
@@ -128,7 +128,7 @@ plot_log2fc <- function(labeled_results, padj_threshold) {
 #'
 #' @param labeled_results (tibble): Tibble with DESeq2 results and one
 #'   additional column denoting status in volcano plot
-#' @param dds_obj (obj): The object returned by running DESeq(dds) containing
+#' @param dds_obj (obj): The object returned by running DESeq (dds) containing
 #' the updated DESeqDataSet object with test results
 #' @param num_genes (int): Number of genes to plot
 #'
@@ -181,7 +181,7 @@ plot_volcano <- function(labeled_results) {
 
 #' Function to run fgsea on DESeq2 results
 #'
-#' @param labeled_results (tibble): the results from DESeq2
+#' @param labeled_results (tibble): the labeled results from DESeq2
 #' @param gmt (str): the path to the GMT file
 #' @param min_size: the threshold for minimum size of the gene set
 #' @param max_size: the threshold for maximum size of the gene set
@@ -190,7 +190,7 @@ plot_volcano <- function(labeled_results) {
 #' log2foldchange as a ranking metric
 #' @export
 #'
-#' @examples fgsea_res <- run_gsea(labeled_results, 'c2.cp.v7.5.1.symbols.gmt', 15, 500)
+#' @examples fgsea_results <- run_gsea(labeled_results, 'c2.cp.v7.5.1.symbols.gmt', 15, 500)
 run_gsea <- function(labeled_results, gmt, min_size, max_size) {
   
   labeled_results <- labeled_results %>% separate(genes, sep='\\.', into='genes', remove=TRUE)
@@ -227,9 +227,9 @@ run_gsea <- function(labeled_results, gmt, min_size, max_size) {
 #' in a barchart
 #'
 #' @param fgsea_results (tibble): the fgsea results in tibble format returned by
-#' the previous function
-#' @param num_paths (int): the number of pathways (up and down) to include in 
-#' the plot. Set this at 10.
+#'   the previous function
+#' @param num_paths (int): the number of pathways for each direction (top or
+#'   down) to include in the plot. Set this at 10.
 #'
 #' @return ggplot with a barchart showing the top twenty pathways ranked by positive
 #' and negative NES
