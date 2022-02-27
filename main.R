@@ -36,30 +36,31 @@ make_se <- function(counts_csv, metafile_csv, subset) {
 }
 
 #' Function that runs DESeq2 and returns a named list containing the DESeq2
-#' results and the dds object returned by DESeq2
+#' results as a dataframe and the dds object returned by DESeq2
 #'
 #' @param se (obj): SummarizedExperiment object containing counts matrix and
 #' coldata
 #' @param design: the design formula to be used in DESeq2
 #'
 #' @return list with DESeqDataSet object after running DESeq2 and results from
-#'   DESeq2 
+#'   DESeq2 as a dataframe
 #' @export
 #'
 #' @examples results <- return_deseq_res(se, ~ timepoint)
 return_deseq_res <- function(se, design) {
   dds <- DESeqDataSet(se, design = design)
   dds <- DESeq(dds)
-  res <- results(dds)
+  res <- results(dds) %>% as.data.frame()
   
-  return(list('res' = res, 'dds_obj' = dds))
+  return(list('res' = res, 'dds' = dds))
 }
 
-#' Function that takes the ordered DESeq2 results and adds a column to denote
+#' Function that takes the DESeq2 results dataframe and adds a column to denote
 #' plotting status in volcano plot. Column should denote whether gene is either
 #' 1. Significant at padj < .10 and has a positive log fold change, 2.
 #' Significant at padj < .10 and has a negative log fold change, 3. Not
-#' significant at padj < .10
+#' significant at padj < .10. Have the values for these labels be UP, DOWN, NS,
+#' respectively.
 #'
 #' @param deseq2_res (df): results from DESeq2 
 #' @param padj_threshold (float): threshold for considering significance (padj)
@@ -73,10 +74,9 @@ return_deseq_res <- function(se, design) {
 #' @examples labeled_results <- label_res(ordered_res, .10)
 label_res <- function(deseq2_res, padj_threshold) {
   labeled <- deseq2_res %>%
-    as.data.frame() %>%
     as_tibble(rownames='genes') %>%
-    mutate(volc_plot_status = case_when(log2FoldChange > 0 & padj < padj_threshold ~ 'Up', 
-                                        log2FoldChange < 0 & padj < padj_threshold ~ 'Down', 
+    mutate(volc_plot_status = case_when(log2FoldChange > 0 & padj < padj_threshold ~ 'UP', 
+                                        log2FoldChange < 0 & padj < padj_threshold ~ 'DOWN', 
                                         TRUE ~ 'NS'))
   return(labeled)
 }
