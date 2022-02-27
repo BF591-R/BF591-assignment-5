@@ -98,23 +98,3 @@ test_that('volcano plot has the right labels', {
   
   expect_true("GeomPoint" %in% geoms_volc)
 })
-
-test_that('fgsea results have the right results columns and is tibble', {
-
-  se <- make_se('verse_counts.tsv', 'sample_metadata.csv', c('vP0', 'vAd'))
-  dds <- DESeqDataSet(se, design = ~timepoint)
-  dds <- DESeq(dds)
-  res <- results(dds) %>% as_tibble(rownames='genes')
-  
-  fgsea_res <- run_gsea(res, 'c2.cp.v7.5.1.symbols.gmt', 15, 500)
-  
-  fgsea_plot <- top_pathways(fgsea_res, 10)
-  
-  expect_true(sum(fgsea_plot$data$NES > 0) == 10)
-  expect_true(sum(fgsea_plot$data$NES > 0) == 10)
-  
-  expect_true(is_tibble(fgsea_res))
-  expect_true(all(c('NES', 'ES', 'pval', 'padj', 'log2err', 'size', 'leadingEdge') %in% names(fgsea_res)))
-  
-})
-
